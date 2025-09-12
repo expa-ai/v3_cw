@@ -1,5 +1,6 @@
 <script>
-import { defineAsyncComponent, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { defineAsyncComponent, ref, computed } from 'vue';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
@@ -33,6 +34,9 @@ export default {
     MobileSidebarLauncher,
   },
   setup() {
+    const route = useRoute();
+    const hideSidebar = computed(() => route.query.hideSidebar === '1');
+
     const upgradePageRef = ref(null);
     const { uiSettings, updateUISettings } = useUISettings();
     const { accountId } = useAccount();
@@ -44,6 +48,7 @@ export default {
       accountId,
       upgradePageRef,
       windowWidth,
+      hideSidebar,
     };
   },
   data() {
@@ -123,6 +128,7 @@ export default {
 <template>
   <div class="flex flex-grow overflow-hidden text-n-slate-12">
     <NextSidebar
+      v-if="!hideSidebar"
       :is-mobile-sidebar-open="isMobileSidebarOpen"
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
@@ -138,6 +144,7 @@ export default {
         :bypass-upgrade-page="bypassUpgradePage"
       >
         <MobileSidebarLauncher
+          v-if="!hideSidebar"
           :is-mobile-sidebar-open="isMobileSidebarOpen"
           @toggle="toggleMobileSidebar"
         />
@@ -147,6 +154,7 @@ export default {
         <CommandBar />
         <CopilotLauncher />
         <MobileSidebarLauncher
+          v-if="!hideSidebar"
           :is-mobile-sidebar-open="isMobileSidebarOpen"
           @toggle="toggleMobileSidebar"
         />
