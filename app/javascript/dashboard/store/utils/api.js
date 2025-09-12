@@ -32,6 +32,8 @@ export const setAuthCredentials = response => {
   const expiryDate = getHeaderExpiry(response);
   Cookies.set('cw_d_session_info', JSON.stringify(response.headers), {
     expires: differenceInDays(expiryDate, new Date()),
+    sameSite: 'None', 
+    secure: true
   });
   setUser(response.data.data, expiryDate);
 };
