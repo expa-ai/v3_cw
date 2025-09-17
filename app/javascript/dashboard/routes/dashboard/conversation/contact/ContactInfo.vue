@@ -44,8 +44,10 @@ export default {
   emits: ['panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
+    const isEmbedMode = useStorage('is-embed-mode', false, localStorage);
     return {
       isAdmin,
+      isEmbedMode,
     };
   },
   data() {
@@ -199,7 +201,7 @@ export default {
           >
             {{ contact.name }}
           </h3>
-          <div class="flex flex-row items-center gap-2">
+          <div v-if="!isEmbedMode" class="flex flex-row items-center gap-2">
             <span
               v-if="contact.created_at"
               v-tooltip.left="
@@ -263,7 +265,7 @@ export default {
           <SocialIcons :social-profiles="socialProfiles" />
         </div>
       </div>
-      <div class="flex items-center w-full mt-0.5 gap-2">
+      <div v-if="!isEmbedMode" class="flex items-center w-full mt-0.5 gap-2">
         <ComposeConversation
           :contact-id="String(contact.id)"
           is-modal

@@ -9,7 +9,7 @@ import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useWindowSize } from '@vueuse/core';
+import { useWindowSize, useStorage } from '@vueuse/core';
 
 import wootConstants from 'dashboard/constants/globals';
 
@@ -35,7 +35,10 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const hideSidebar = computed(() => route.query.hideSidebar === '1');
+    const isEmbedModeFromQuery = computed(() => route.query.embedMode === '1');
+
+    const isEmbedMode = useStorage('is-embed-mode', false, localStorage);
+    if (isEmbedModeFromQuery.value) isEmbedMode.value = true;
 
     const upgradePageRef = ref(null);
     const { uiSettings, updateUISettings } = useUISettings();
@@ -48,7 +51,7 @@ export default {
       accountId,
       upgradePageRef,
       windowWidth,
-      hideSidebar,
+      hideSidebar: isEmbedMode.value,
     };
   },
   data() {
@@ -151,7 +154,7 @@ export default {
       </UpgradePage>
       <template v-if="!showUpgradePage">
         <router-view />
-        <CommandBar />
+        <CommandBar v-if="!hideSidebar" />
         <CopilotLauncher />
         <MobileSidebarLauncher
           v-if="!hideSidebar"
