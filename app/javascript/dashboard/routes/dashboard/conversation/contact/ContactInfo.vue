@@ -47,7 +47,7 @@ export default {
     const isEmbedMode = useStorage('is-embed-mode', false, localStorage);
     return {
       isAdmin,
-      isEmbedMode,
+      isEmbedMode: isEmbedMode.value,
     };
   },
   data() {
