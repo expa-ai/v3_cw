@@ -77,6 +77,9 @@ export default {
       }
       return this.findCountryFlag(countryCode, cityAndCountry);
     },
+    isEmbedMode() {
+      return useStorage('is-embed-mode', false, localStorage).value;
+    },
     socialProfiles() {
       const {
         social_profiles: socialProfiles,
@@ -176,7 +179,6 @@ export default {
     },
   },
 };
-const isEmbedMode = useStorage('is-embed-mode', false, localStorage);
 </script>
 
 <template>
