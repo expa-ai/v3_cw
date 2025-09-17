@@ -44,10 +44,8 @@ export default {
   emits: ['panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
-    const isEmbedMode = useStorage('is-embed-mode', false, localStorage);
     return {
       isAdmin,
-      isEmbedMode: isEmbedMode.value,
     };
   },
   data() {
@@ -177,6 +175,7 @@ export default {
     },
   },
 };
+const isEmbedMode = useStorage('is-embed-mode', false, localStorage);
 </script>
 
 <template>
