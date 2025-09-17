@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
+import { useStorage } from '@vueuse/core';
 import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
